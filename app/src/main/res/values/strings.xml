@@ -1,4 +1,4 @@
 <resources>
     <string name="app_name">EarthquakeViewerUSGS</string>
-    <string name="title_activity_main">Map</string>
+    <string name="title_activity_main">Earthquake Viewer</string>
 </resources>
