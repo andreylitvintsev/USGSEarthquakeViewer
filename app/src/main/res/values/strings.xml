@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">EarthquakeViewerUSGS</string>
     <string name="title_activity_main">Earthquake Viewer</string>
+    <string name="filter_events">Filter events</string>
+    <string name="about">About</string>
 </resources>
