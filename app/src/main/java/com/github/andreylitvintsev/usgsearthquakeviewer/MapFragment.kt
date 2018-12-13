@@ -35,7 +35,7 @@ class MapFragment : Fragment() {
     }
 
     private fun openAboutFragment() {
-        fragmentManager?.beginTransaction()?.add(android.R.id.content, AboutFragment())?.commit()
+        openFragment(AboutFragment(), addToBackStack = true)
     }
 
 }
