@@ -21,7 +21,10 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        supportFragmentManager.beginTransaction().add(android.R.id.content, MapFragment()).commit()
+
+        if (supportFragmentManager.findFragmentById(android.R.id.content) == null) {
+            supportFragmentManager.beginTransaction().add(android.R.id.content, MapFragment()).commit()
+        }
     }
 
 }
