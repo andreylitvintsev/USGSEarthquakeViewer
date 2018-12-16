@@ -3,7 +3,6 @@ package com.github.andreylitvintsev.usgsearthquakeviewer
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
 import android.view.*
 import com.google.android.gms.maps.GoogleMap
 
@@ -24,7 +23,7 @@ class MapFragment : Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem?) = when (item?.itemId) {
         R.id.eventsFilter -> {
-            Log.d("TAG", "filter")
+            openFilterDialogFragment()
             true
         }
         R.id.about -> {
@@ -32,6 +31,10 @@ class MapFragment : Fragment() {
             true
         }
         else -> super.onOptionsItemSelected(item)
+    }
+
+    private fun openFilterDialogFragment() {
+        FilterDialogFragment().show(appCompatActivity().supportFragmentManager, "dialogFragment")
     }
 
     private fun openAboutFragment() {
