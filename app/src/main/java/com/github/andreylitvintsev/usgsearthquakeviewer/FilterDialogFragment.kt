@@ -8,9 +8,9 @@ import android.support.v4.view.ViewPager
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatDialogFragment
 import android.util.AttributeSet
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+
 
 // TODO: может ли существовать фрагмент без активити?
 class FilterDialogFragment : AppCompatDialogFragment() { // TODO: посмотреть в чем разница между DialogFragment
@@ -19,10 +19,21 @@ class FilterDialogFragment : AppCompatDialogFragment() { // TODO: посмотр
         return AlertDialog.Builder(appCompatActivity())
             .setView(appCompatActivity().layoutInflater.inflate(R.layout.dialog_fragment_filter, null).apply {
                 val viewPager = this.findViewById<ViewPager>(R.id.viewPager)
-                viewPager.adapter = MyPagerAdapter(appCompatActivity().layoutInflater)
+                viewPager.adapter = createPagerAdapter()
             })
             .create()
     }
+
+    private fun createPagerAdapter() = SimplePagerAdapter(3) { container, position ->
+        val layoutId = when(position) {
+            0 -> R.layout.reduce_layout
+            1 -> R.layout.reduce_layout2
+            2 -> R.layout.reduce_layout3
+            else -> throw IllegalArgumentException("The number of pages more than the number of layouts!")
+        }
+        appCompatActivity().layoutInflater.inflate(layoutId, container, false)
+    }
+
 }
 
 class HeightAdaptiveViewPager(context: Context, attributeSet: AttributeSet?) : ViewPager(context, attributeSet) {
@@ -50,30 +61,24 @@ class HeightAdaptiveViewPager(context: Context, attributeSet: AttributeSet?) : V
 
 }
 
-// TODO: разобраться с размером
-class MyPagerAdapter(private val layoutInflater: LayoutInflater) : PagerAdapter() {
+
+class SimplePagerAdapter(
+    private val pagesNumber: Int,
+    private val instantiateItemView: (container: ViewGroup, position: Int) -> View
+) : PagerAdapter() {
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
-
-        val view = when (position) {
-            0 -> layoutInflater.inflate(R.layout.reduce_layout, container, false)
-            1 -> layoutInflater.inflate(R.layout.reduce_layout2, container, false)
-            else -> layoutInflater.inflate(R.layout.reduce_layout3, container, false)
-        }
-        container.addView(view)
-        return view
+        val viewOnPosition = instantiateItemView(container, position)
+        container.addView(viewOnPosition)
+        return viewOnPosition
     }
 
     override fun destroyItem(container: ViewGroup, position: Int, view: Any) {
         container.removeView(view as View)
     }
 
-    override fun isViewFromObject(p0: View, p1: Any): Boolean {
-        return p0 == p1
-    }
+    override fun isViewFromObject(view: View, any: Any) = (view == any)
 
-    override fun getCount(): Int {
-        return 3
-    }
+    override fun getCount() = pagesNumber
 
 }
