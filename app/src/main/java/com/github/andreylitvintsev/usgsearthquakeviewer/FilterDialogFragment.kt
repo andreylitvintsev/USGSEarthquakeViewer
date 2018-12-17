@@ -7,9 +7,12 @@ import android.support.v4.view.PagerAdapter
 import android.support.v4.view.ViewPager
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatDialogFragment
+import android.support.v7.widget.Toolbar
 import android.util.AttributeSet
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 
 
 // TODO: может ли существовать фрагмент без активити?
@@ -19,24 +22,55 @@ class FilterDialogFragment : AppCompatDialogFragment() { // TODO: посмотр
         return AlertDialog.Builder(appCompatActivity())
             .setView(appCompatActivity().layoutInflater.inflate(R.layout.dialog_fragment_filter, null).apply {
                 val viewPager = this.findViewById<ViewPager>(R.id.viewPager)
-                viewPager.adapter = createPagerAdapter()
+                viewPager.adapter = createPagerAdapter(viewPager)
             })
             .create()
     }
 
-    private fun createPagerAdapter() = SimplePagerAdapter(3) { container, position ->
+    // TODO: рефактор
+    private fun createPagerAdapter(viewPager: ViewPager) = SimplePagerAdapter(2) { container, position ->
         val layoutId = when(position) {
-            0 -> R.layout.reduce_layout
-            1 -> R.layout.reduce_layout2
-            2 -> R.layout.reduce_layout3
+            0 -> R.layout.page_dialog_filter
+            1 -> R.layout.page_dialog_datepicker
             else -> throw IllegalArgumentException("The number of pages more than the number of layouts!")
         }
-        appCompatActivity().layoutInflater.inflate(layoutId, container, false)
+
+        when(position) {
+            1 -> appCompatActivity().layoutInflater.inflate(layoutId, container, false).apply {
+                val toolbar = findViewById<Toolbar>(R.id.toolbar)
+                toolbar.setNavigationOnClickListener {
+                    viewPager.currentItem = 0
+                }
+            }
+
+            0 -> appCompatActivity().layoutInflater.inflate(layoutId, container, false).apply {
+                findViewById<Button>(R.id.button).setOnClickListener {
+                    viewPager.currentItem = 1
+                }
+            }
+            else -> throw Exception()
+        }
     }
 
 }
 
+
 class HeightAdaptiveViewPager(context: Context, attributeSet: AttributeSet?) : ViewPager(context, attributeSet) {
+
+    private var canSwipe: Boolean = false
+
+    init {
+        obtainStyledAttributes(context, attributeSet)
+    }
+
+    private fun obtainStyledAttributes(context: Context, attributeSet: AttributeSet?) {
+        val styledAttributes = context.obtainStyledAttributes(attributeSet, R.styleable.HeightAdaptiveViewPager)
+        try {
+            canSwipe = styledAttributes.getBoolean(R.styleable.HeightAdaptiveViewPager_canSwipe, true)
+        } finally {
+            styledAttributes.recycle()
+        }
+    }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         val measureMode = View.MeasureSpec.getMode(heightMeasureSpec)
@@ -57,6 +91,15 @@ class HeightAdaptiveViewPager(context: Context, attributeSet: AttributeSet?) : V
         }
 
         super.onMeasure(widthMeasureSpec, newHeightMeasureSpec)
+    }
+
+    // TODO: разобраться с касанием
+    override fun onInterceptTouchEvent(ev: MotionEvent?): Boolean {
+        return if (canSwipe) super.onInterceptTouchEvent(ev) else false
+    }
+
+    override fun onTouchEvent(ev: MotionEvent?): Boolean {
+        return if (canSwipe) super.onTouchEvent(ev) else false
     }
 
 }

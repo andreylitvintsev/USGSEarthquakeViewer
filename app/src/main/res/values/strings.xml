@@ -3,4 +3,6 @@
     <string name="title_activity_main">Earthquake Viewer</string>
     <string name="filter_events">Filter events</string>
     <string name="about">About</string>
+    <string name="filter_title">Filter</string>
+    <string name="date_picking">Choose date</string>
 </resources>
