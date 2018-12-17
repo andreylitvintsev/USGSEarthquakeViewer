@@ -36,7 +36,7 @@ class FilterDialogFragment : AppCompatDialogFragment() { // TODO: посмотр
             else -> throw IllegalArgumentException("The number of pages more than the number of layouts!")
         }
 
-        appCompatActivity().layoutInflater.inflate(layoutId, container, false).apply {
+        return@SimplePagerAdapter appCompatActivity().layoutInflater.inflate(layoutId, container, false).apply {
             when (position) {
                 0 -> configureFilterPage(this)
                 1 -> configureDatePickerPage(this)
