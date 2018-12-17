@@ -18,37 +18,43 @@ import android.widget.Button
 // TODO: может ли существовать фрагмент без активити?
 class FilterDialogFragment : AppCompatDialogFragment() { // TODO: посмотреть в чем разница между DialogFragment
 
+    private lateinit var viewPager: ViewPager
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return AlertDialog.Builder(appCompatActivity())
             .setView(appCompatActivity().layoutInflater.inflate(R.layout.dialog_fragment_filter, null).apply {
-                val viewPager = this.findViewById<ViewPager>(R.id.viewPager)
-                viewPager.adapter = createPagerAdapter(viewPager)
+                viewPager = findViewById(R.id.viewPager)
+                viewPager.adapter = createPagerAdapter()
             })
             .create()
     }
 
-    // TODO: рефактор
-    private fun createPagerAdapter(viewPager: ViewPager) = SimplePagerAdapter(2) { container, position ->
-        val layoutId = when(position) {
+    private fun createPagerAdapter() = SimplePagerAdapter(2) { container, position ->
+        val layoutId = when (position) {
             0 -> R.layout.page_dialog_filter
             1 -> R.layout.page_dialog_datepicker
             else -> throw IllegalArgumentException("The number of pages more than the number of layouts!")
         }
 
-        when(position) {
-            1 -> appCompatActivity().layoutInflater.inflate(layoutId, container, false).apply {
-                val toolbar = findViewById<Toolbar>(R.id.toolbar)
-                toolbar.setNavigationOnClickListener {
-                    viewPager.currentItem = 0
-                }
+        appCompatActivity().layoutInflater.inflate(layoutId, container, false).apply {
+            when (position) {
+                0 -> configureFilterPage(this)
+                1 -> configureDatePickerPage(this)
+                else -> throw IllegalArgumentException("The number of pages more than the number of layouts!")
             }
+        }
+    }
 
-            0 -> appCompatActivity().layoutInflater.inflate(layoutId, container, false).apply {
-                findViewById<Button>(R.id.button).setOnClickListener {
-                    viewPager.currentItem = 1
-                }
-            }
-            else -> throw Exception()
+    private fun configureFilterPage(view: View) {
+        view.findViewById<Button>(R.id.button).setOnClickListener {
+            viewPager.currentItem = 1
+        }
+    }
+
+    private fun configureDatePickerPage(view: View) {
+        val toolbar = view.findViewById<Toolbar>(R.id.toolbar)
+        toolbar.setNavigationOnClickListener {
+            viewPager.currentItem = 0
         }
     }
 
