@@ -3,8 +3,6 @@ package com.github.andreylitvintsev.usgsearthquakeviewer
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentPagerAdapter
 import android.support.v4.view.PagerAdapter
 import android.support.v4.view.ViewPager
 import android.support.v7.app.AlertDialog
@@ -27,27 +25,27 @@ class FilterDialogFragment : AppCompatDialogFragment() { // TODO: посмотр
     }
 }
 
-class MyViewPager(context: Context, attribureSet: AttributeSet?) : ViewPager(context, attribureSet) {
+class HeightAdaptiveViewPager(context: Context, attributeSet: AttributeSet?) : ViewPager(context, attributeSet) {
 
-    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) { // TODO: отрефакторить
-        var heightMeasureSpec = heightMeasureSpec
-        val mode = View.MeasureSpec.getMode(heightMeasureSpec)
-        // Unspecified means that the ViewPager is in a ScrollView WRAP_CONTENT.
-        // At Most means that the ViewPager is not in a ScrollView WRAP_CONTENT.
-        if (mode == View.MeasureSpec.UNSPECIFIED || mode == View.MeasureSpec.AT_MOST) {
-            // super has to be called in the beginning so the child views can be initialized.
-            super.onMeasure(widthMeasureSpec, heightMeasureSpec)
-            var height = 0
+    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+        val measureMode = View.MeasureSpec.getMode(heightMeasureSpec)
+        var newHeightMeasureSpec = heightMeasureSpec
+
+        if (measureMode == View.MeasureSpec.UNSPECIFIED || measureMode == View.MeasureSpec.AT_MOST) {
+            var maxChildHeight = 0
             for (i in 0 until childCount) {
-                val child = getChildAt(i)
-                child.measure(widthMeasureSpec, View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED))
-                val h = child.measuredHeight
-                if (h > height) height = h
+                getChildAt(i).apply {
+                    measure(widthMeasureSpec, View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED))
+                    if (measuredHeight > maxChildHeight) {
+                        maxChildHeight = measuredHeight
+                    }
+                }
             }
-            heightMeasureSpec = View.MeasureSpec.makeMeasureSpec(height, View.MeasureSpec.EXACTLY)
+
+            newHeightMeasureSpec = View.MeasureSpec.makeMeasureSpec(maxChildHeight, View.MeasureSpec.EXACTLY)
         }
-        // super has to be called again so the new specs are treated as exact measurements
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
+
+        super.onMeasure(widthMeasureSpec, newHeightMeasureSpec)
     }
 
 }
@@ -56,7 +54,12 @@ class MyViewPager(context: Context, attribureSet: AttributeSet?) : ViewPager(con
 class MyPagerAdapter(private val layoutInflater: LayoutInflater) : PagerAdapter() {
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
-        val view = layoutInflater.inflate(R.layout.reduce_layout, container, false)
+
+        val view = when (position) {
+            0 -> layoutInflater.inflate(R.layout.reduce_layout, container, false)
+            1 -> layoutInflater.inflate(R.layout.reduce_layout2, container, false)
+            else -> layoutInflater.inflate(R.layout.reduce_layout3, container, false)
+        }
         container.addView(view)
         return view
     }
@@ -70,15 +73,7 @@ class MyPagerAdapter(private val layoutInflater: LayoutInflater) : PagerAdapter(
     }
 
     override fun getCount(): Int {
-        return 2
-    }
-
-}
-
-class DatePickerFragment : Fragment() {
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.reduce_layout, null)
+        return 3
     }
 
 }
