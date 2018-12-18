@@ -2,33 +2,66 @@
 <android.support.constraint.ConstraintLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:orientation="vertical"
+        xmlns:tools="http://schemas.android.com/tools" android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimaryDark">
+        android:layout_height="wrap_content" tools:layout_editor_absoluteY="25dp">
 
 
     <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
-            android:layout_width="0dp"
+            android:layout_width="384dp"
             app:title="@string/filter_title"
-            android:layout_height="wrap_content"
-            android:background="?attr/colorPrimary"
             style="@style/AppTheme.Toolbar"
             android:minHeight="?attr/actionBarSize"
+            app:titleTextColor="@color/colorPrimaryDark"
+            android:background="@android:color/transparent"/>
+
+    <com.appyvet.materialrangebar.RangeBar
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/rangeBar"
+            app:mrb_temporaryPins="false"
+            app:mrb_rangeBar_rounded="true"
+            app:mrb_tickColor="#ffffff"
+            app:mrb_barWeight="3dp"
+            app:mrb_selectorSize="8dp"
+            app:mrb_tickStart="0"
+            app:mrb_tickEnd="10"
+            app:mrb_pinMaxFont="12sp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            app:layout_constraintHorizontal_bias="0.0" app:layout_constraintTop_toBottomOf="@+id/textView"/>
 
     <Button
             android:id="@+id/button"
             android:text="Button"
             android:layout_width="wrap_content"
             android:layout_height="49dp"
-            app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="8dp"
-            android:layout_marginStart="8dp" android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar"
-            android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/rangeBar" android:layout_marginBottom="16dp"
+            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="16dp" android:layout_marginRight="16dp"/>
+    <TextView
+            android:text="Magnitude"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView3"
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar" android:layout_marginStart="16dp"
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="16dp"/>
+    <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginLeft="16dp" android:layout_marginStart="16dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption" app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="16dp" android:layout_marginRight="16dp"
+            android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+            app:layout_constraintTop_toBottomOf="@+id/textView3" android:layout_marginTop="8dp"/>
 
 </android.support.constraint.ConstraintLayout>
