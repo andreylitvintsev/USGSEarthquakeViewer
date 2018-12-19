@@ -5,4 +5,11 @@
     <string name="about">About</string>
     <string name="filter_title">Filter</string>
     <string name="date_picking">Choose date</string>
+    <string name="magnitude_title">Magnitude</string>
+    <string name="magnitude_description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+        incididunt ut labore et dolore magna aliqua.
+    </string>
+    <string name="time_picker_button">21.12.2018</string>
+    <string name="cancel_button">Cancel</string>
+    <string name="apply_button">Apply</string>
 </resources>

@@ -8,7 +8,7 @@
 
     <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
-            style="@style/AppTheme.Toolbar.VersionSpecific"/>
+            style="@style/AppTheme.Dark.Toolbar.VersionSpecific"/>
 
     <fragment
             android:id="@+id/map"

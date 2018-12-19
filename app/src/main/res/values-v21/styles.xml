@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="AppTheme.Toolbar.VersionSpecific">
+    <style name="AppTheme.Dark.Toolbar.VersionSpecific">
         <item name="android:elevation">4dp</item>
     </style>
 

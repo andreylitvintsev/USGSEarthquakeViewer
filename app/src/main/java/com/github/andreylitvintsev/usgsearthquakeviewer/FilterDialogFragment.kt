@@ -46,7 +46,7 @@ class FilterDialogFragment : AppCompatDialogFragment() { // TODO: посмотр
     }
 
     private fun configureFilterPage(view: View) {
-        view.findViewById<Button>(R.id.button).setOnClickListener {
+        view.findViewById<Button>(R.id.timePickerButton).setOnClickListener {
             viewPager.currentItem = 1
         }
     }
