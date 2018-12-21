@@ -10,7 +10,8 @@ fun Fragment.appCompatActivity() = (activity as AppCompatActivity)
 fun Fragment.openFragment(
     fragment: Fragment, tag: String? = null, addToBackStack: Boolean = false, backStackName: String? = null
 ) {
-    appCompatActivity().supportFragmentManager.beginTransaction()
+    val fm = appCompatActivity().supportFragmentManager
+    fm.beginTransaction()
         .add(android.R.id.content, fragment, tag)
         .apply { if (addToBackStack) addToBackStack(backStackName) }
         .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
