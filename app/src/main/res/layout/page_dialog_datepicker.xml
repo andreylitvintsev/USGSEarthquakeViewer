@@ -13,53 +13,17 @@
             style="@style/AppTheme.Toolbar"/>
 
     <!-- TODO: https://android-arsenal.com/details/1/4696 -->
-    <jp.co.recruit_mp.android.lightcalendarview.LightCalendarView
-            android:id="@+id/calendarView"
+    <com.github.sundeepk.compactcalendarview.CompactCalendarView
+            android:id="@+id/compactcalendar_view"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:paddingLeft="16dp"
-            android:paddingStart="16dp"
             android:paddingRight="16dp"
-            android:paddingEnd="16dp"/>
-
-    <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="8dp"
-            android:paddingStart="8dp"
-            android:paddingRight="8dp"
-            android:paddingEnd="8dp">
-
-        <Button
-                android:id="@+id/timePickerButton"
-                style="@style/Base.Widget.AppCompat.Button.ButtonBar.AlertDialog"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/time_picker_button"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentBottom="true"/>
-
-        <Button
-                android:id="@+id/applyButton"
-                style="@style/Base.Widget.AppCompat.Button.ButtonBar.AlertDialog"
-                android:text="@string/apply_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentBottom="true"/>
-
-        <Button
-                android:id="@+id/cancelButton"
-                style="@style/Base.Widget.AppCompat.Button.ButtonBar.AlertDialog"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/cancel_button"
-                android:layout_toLeftOf="@id/applyButton"
-                android:layout_toStartOf="@id/applyButton"
-                android:layout_alignParentBottom="true"/>
-
-    </RelativeLayout>
+            android:paddingLeft="16dp"
+            android:layout_height="256dp"
+            app:compactCalendarBackgroundColor="#ffe95451"
+            app:compactCalendarTextColor="#fff"
+            app:compactCalendarCurrentSelectedDayBackgroundColor="#E57373"
+            app:compactCalendarCurrentDayBackgroundColor="#B71C1C"
+            app:compactCalendarTextSize="12sp"
+            app:compactCalendarMultiEventIndicatorColor="#fff"/>
 
 </LinearLayout>
