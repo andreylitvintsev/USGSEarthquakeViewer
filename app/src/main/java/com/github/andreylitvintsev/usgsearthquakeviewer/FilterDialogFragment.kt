@@ -15,13 +15,11 @@ import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewStub
 import android.widget.FrameLayout
 
 
 // TODO: может ли существовать фрагмент без активити?
 
-// TODO: реализовать PendingView
 class FilterDialogFragment : AppCompatDialogFragment() { // TODO: посмотреть в чем разница между DialogFragment
 
     private lateinit var viewPager: ViewPager
@@ -35,39 +33,18 @@ class FilterDialogFragment : AppCompatDialogFragment() { // TODO: посмотр
             .create()
     }
 
-    private fun createPagerAdapter() = LazyPagerAdapter(LazyPageImpl(appCompatActivity()))
-
-//    private fun createPagerAdapter() = SimplePagerAdapter(1) { container, position ->
-//        val layoutId = when (position) {
-//            0 -> R.layout.page_dialog_filter
-//            else -> throw IllegalArgumentException("The number of pages more than the number of layouts!")
-//        }
-//
-//        return@SimplePagerAdapter appCompatActivity().layoutInflater.inflate(layoutId, container, false).apply {
-//            when (position) {
-////                0 -> configureFilterPage(this)
-//                0 -> configureDatePickerPage(this)
-//                else -> throw IllegalArgumentException("The number of pages more than the number of layouts!")
-//            }
-//        }
-//    }
-
-//    private fun configureFilterPage(view: View) {
-//        view.findViewById<Button>(R.id.timePickerButton).setOnClickListener {
-//            viewPager.currentItem = 1
-//        }
-//    }
-
-//    private fun configureDatePickerPage(view: View) {
-//        val toolbar = view.findViewById<Toolbar>(R.id.toolbar)
-//        toolbar.setNavigationOnClickListener {
-//            viewPager.currentItem = 0
-//        }
-//    }
+    private fun createPagerAdapter(): LazyPagerAdapter {
+        val page = LazyPageImpl(appCompatActivity())
+        val page1 = LazyPageImpl(appCompatActivity())
+        val page2 = LazyPageImplWithPH(appCompatActivity())
+        val page3 = LazyPageImpl(appCompatActivity())
+        val page4 = LazyPageImplWithPH(appCompatActivity())
+        return LazyPagerAdapter(page, page1, page2, page3, page4)
+    }
 
 }
 
-
+// TODO: вынести в отдельный пакет
 class HeightAdaptiveViewPager(context: Context, attributeSet: AttributeSet?) : ViewPager(context, attributeSet) {
 
     private var canSwipe: Boolean = false
@@ -117,29 +94,8 @@ class HeightAdaptiveViewPager(context: Context, attributeSet: AttributeSet?) : V
 
 }
 
-
-class SimplePagerAdapter(
-    private val pagesNumber: Int,
-    private val instantiateItemView: (container: ViewGroup, position: Int) -> View
-) : PagerAdapter() {
-
-    override fun instantiateItem(container: ViewGroup, position: Int): Any {
-        val viewOnPosition = instantiateItemView(container, position)
-        container.addView(viewOnPosition)
-        return viewOnPosition
-    }
-
-    override fun destroyItem(container: ViewGroup, position: Int, view: Any) {
-        container.removeView(view as View)
-    }
-
-    override fun isViewFromObject(view: View, any: Any) = (view == any)
-
-    override fun getCount() = pagesNumber
-}
-
-
-class LazyPagerAdapter(private val lazyPage: LazyPage) : PagerAdapter() { // TODO: массив страниц
+// TODO: вынести в отдельный пакет
+class LazyPagerAdapter(vararg val pages: LazyPage) : PagerAdapter() { // TODO: вынести в отдельный пакет
 
     private var currentPage: Int = -1
 
@@ -148,15 +104,13 @@ class LazyPagerAdapter(private val lazyPage: LazyPage) : PagerAdapter() { // TOD
 
         if (currentPage != position) {
             currentPage = position
-            lazyPage.onPageStayVisible(currentPage)
+            pages[currentPage].onPageStayVisible(currentPage)
             Log.d("TAG", "blocking!")
         }
-
-
     }
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
-        val viewOnPosition = lazyPage.onInstantiateItem(container, position)
+        val viewOnPosition = pages[position].onInstantiateItem(container, position)
         container.addView(viewOnPosition)
 
         return viewOnPosition
@@ -168,50 +122,73 @@ class LazyPagerAdapter(private val lazyPage: LazyPage) : PagerAdapter() { // TOD
 
     override fun isViewFromObject(view: View, any: Any) = (view == any)
 
-    override fun getCount(): Int = 2 // TODO
+    override fun getCount(): Int = pages.size
 
 }
 
+// TODO: вынести в отдельный пакет
+abstract class LazyPage(val context: Context) {
 
-abstract class LazyPage(val context: Context) { // TODO: doing!!! + избавиться от перересовки
-
-    private val viewStub = ViewStub(context).apply {
-        this.layoutParams = ViewGroup.LayoutParams(
-            ViewGroup.LayoutParams.MATCH_PARENT,
-            ViewGroup.LayoutParams.WRAP_CONTENT
-        )
-        this.layoutResource = getLayout()
+    private companion object {
+        const val EMPTY_PLACEHOLDER = -1
     }
+
+    private var placeholderView: View? = null
+    private var mainView: View? = null
 
     private val viewGroup = FrameLayout(context).apply {
-//        addView(viewStub)
-        Log.d("TAG", "ascnk")
-        addView(View.inflate(context, getPlaceholderLayout(), null))
-    }
-
-    @LayoutRes
-    abstract fun getPlaceholderLayout(): Int
-
-    @LayoutRes
-    abstract fun getLayout(): Int
-
-    @CallSuper
-    open fun onPageStayVisible(pageIndex: Int) {
-        Log.d("TAG", "pagestayVisible: $pageIndex")
-//        viewStub.inflate()
-        AsyncLayoutInflater(context).inflate(R.layout.page_dialog_filter, viewGroup) { view, i, viewGroup ->
-            viewGroup?.addView(view)
+        if (getPlaceholderLayout() != EMPTY_PLACEHOLDER) {
+            placeholderView = View.inflate(context, getPlaceholderLayout(), null)
+            addView(placeholderView)
         }
     }
 
-    fun onInstantiateItem(container: ViewGroup, position: Int): View = viewGroup
+    @LayoutRes
+    protected open fun getPlaceholderLayout(): Int = EMPTY_PLACEHOLDER
+
+    @LayoutRes
+    protected abstract fun getLayout(): Int
+
+    protected open fun onViewInflated(view: View) {
+        // Do nothing!
+    }
+
+    @CallSuper
+    open fun onPageStayVisible(pageIndex: Int) {
+        if (mainView == null) {
+            AsyncLayoutInflater(context).inflate(R.layout.page_dialog_filter, viewGroup) { view, i, viewGroup ->
+                viewGroup?.removeView(placeholderView)
+                placeholderView = null
+
+                mainView = view
+                mainView?.let { onViewInflated(it) }
+                viewGroup?.addView(view)
+            }
+        }
+    }
+
+    internal fun onInstantiateItem(container: ViewGroup, position: Int): View = viewGroup
 
 }
 
 class LazyPageImpl(context: Context) : LazyPage(context) {
 
+    override fun getLayout(): Int = R.layout.page_dialog_datepicker
+
+    override fun onViewInflated(view: View) {
+        Log.d("TAG", "LazyPageImpl:onViewInflated")
+    }
+
+}
+
+class LazyPageImplWithPH(context: Context) : LazyPage(context) {
+
     override fun getPlaceholderLayout(): Int = R.layout.stub
 
     override fun getLayout(): Int = R.layout.page_dialog_datepicker
+
+    override fun onViewInflated(view: View) {
+        Log.d("TAG", "LazyPageImplWithPH:onViewInflated")
+    }
 
 }
