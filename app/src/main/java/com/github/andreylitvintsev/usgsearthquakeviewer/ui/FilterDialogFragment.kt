@@ -31,19 +31,30 @@ class FilterDialogFragment : AppCompatDialogFragment() { // TODO: посмотр
         return LazyPagerAdapter(MagnitudeFilterPage(appCompatActivity()), DateFilterPage(appCompatActivity()))
     }
 
-}
+    inner class MagnitudeFilterPage(context: Context) : LazyPage(context) {
 
+        override fun getPlaceholderLayout(): Int = R.layout.stub
 
-class MagnitudeFilterPage(context: Context) : LazyPage(context) {
+        override fun getLayout(): Int = R.layout.page_dialog_filter
 
-    override fun getLayout(): Int = R.layout.page_dialog_filter
+    }
 
-}
+    inner class DateFilterPage(context: Context) : LazyPage(context) {
 
-class DateFilterPage(context: Context) : LazyPage(context) {
+        override fun getPlaceholderLayout(): Int = R.layout.stub
 
-    override fun getPlaceholderLayout(): Int = R.layout.stub
+        override fun getLayout(): Int = R.layout.page_dialog_datepicker
 
-    override fun getLayout(): Int = R.layout.page_dialog_datepicker
+        override fun onPageStayVisible(pageIndex: Int) {
+            super.onPageStayVisible(pageIndex)
+            showMainView()
+        }
+
+        override fun onLeavedPage() {
+            super.onLeavedPage()
+            showPlaceHolder()
+        }
+
+    }
 
 }

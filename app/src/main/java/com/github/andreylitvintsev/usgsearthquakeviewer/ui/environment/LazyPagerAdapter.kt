@@ -13,6 +13,10 @@ class LazyPagerAdapter(vararg val pages: LazyPage) : PagerAdapter() {
         super.setPrimaryItem(container, position, `object`)
 
         if (currentPage != position) {
+            if (currentPage != -1) {
+                pages[currentPage].onLeavedPage()
+            }
+
             currentPage = position
             pages[currentPage].onPageStayVisible(currentPage)
         }

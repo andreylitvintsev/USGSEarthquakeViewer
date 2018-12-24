@@ -25,9 +25,18 @@ abstract class LazyPage(val context: Context) {
         }
     }
 
+    fun showPlaceHolder() {
+        mainView?.visibility = View.GONE
+        placeholderView?.visibility = View.VISIBLE
+    }
+
+    fun showMainView() {
+        placeholderView?.visibility = View.GONE
+        mainView?.visibility = View.VISIBLE
+    }
+
     @LayoutRes
-    protected open fun getPlaceholderLayout(): Int =
-        EMPTY_PLACEHOLDER
+    protected open fun getPlaceholderLayout(): Int = EMPTY_PLACEHOLDER
 
     @LayoutRes
     protected abstract fun getLayout(): Int
@@ -36,15 +45,18 @@ abstract class LazyPage(val context: Context) {
         // Do nothing!
     }
 
+    internal open fun onLeavedPage() {
+        // Do nothing!
+    }
+
     @CallSuper
     open fun onPageStayVisible(pageIndex: Int) {
         if (mainView == null) {
             AsyncLayoutInflater(context).inflate(getLayout(), viewGroup) { view, i, viewGroup ->
-                viewGroup?.removeView(placeholderView)
-                placeholderView = null
+                placeholderView?.visibility = View.GONE
 
                 mainView = view
-                mainView?.let { onViewInflated(it) }
+                onViewInflated(view)
                 viewGroup?.addView(view)
             }
         }
