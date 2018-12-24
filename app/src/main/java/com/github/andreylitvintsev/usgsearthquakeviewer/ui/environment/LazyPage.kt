@@ -7,7 +7,6 @@ import android.support.v4.view.AsyncLayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
-import com.github.andreylitvintsev.usgsearthquakeviewer.R
 
 
 abstract class LazyPage(val context: Context) {
@@ -40,7 +39,7 @@ abstract class LazyPage(val context: Context) {
     @CallSuper
     open fun onPageStayVisible(pageIndex: Int) {
         if (mainView == null) {
-            AsyncLayoutInflater(context).inflate(R.layout.page_dialog_filter, viewGroup) { view, i, viewGroup ->
+            AsyncLayoutInflater(context).inflate(getLayout(), viewGroup) { view, i, viewGroup ->
                 viewGroup?.removeView(placeholderView)
                 placeholderView = null
 

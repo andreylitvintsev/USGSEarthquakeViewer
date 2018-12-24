@@ -6,8 +6,6 @@ import android.os.Bundle
 import android.support.v4.view.ViewPager
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatDialogFragment
-import android.util.Log
-import android.view.View
 import com.github.andreylitvintsev.usgsearthquakeviewer.R
 import com.github.andreylitvintsev.usgsearthquakeviewer.appCompatActivity
 import com.github.andreylitvintsev.usgsearthquakeviewer.ui.environment.LazyPage
@@ -30,35 +28,22 @@ class FilterDialogFragment : AppCompatDialogFragment() { // TODO: посмотр
     }
 
     private fun createPagerAdapter(): LazyPagerAdapter {
-        val page = LazyPageImpl(appCompatActivity())
-        val page1 = LazyPageImpl(appCompatActivity())
-        val page2 = LazyPageImplWithPH(appCompatActivity())
-        val page3 = LazyPageImpl(appCompatActivity())
-        val page4 = LazyPageImplWithPH(appCompatActivity())
-        return LazyPagerAdapter(page, page1, page2, page3, page4)
+        return LazyPagerAdapter(MagnitudeFilterPage(appCompatActivity()), DateFilterPage(appCompatActivity()))
     }
 
 }
 
 
-class LazyPageImpl(context: Context) : LazyPage(context) {
+class MagnitudeFilterPage(context: Context) : LazyPage(context) {
 
-    override fun getLayout(): Int = R.layout.page_dialog_datepicker
-
-    override fun onViewInflated(view: View) {
-        Log.d("TAG", "LazyPageImpl:onViewInflated")
-    }
+    override fun getLayout(): Int = R.layout.page_dialog_filter
 
 }
 
-class LazyPageImplWithPH(context: Context) : LazyPage(context) {
+class DateFilterPage(context: Context) : LazyPage(context) {
 
     override fun getPlaceholderLayout(): Int = R.layout.stub
 
     override fun getLayout(): Int = R.layout.page_dialog_datepicker
-
-    override fun onViewInflated(view: View) {
-        Log.d("TAG", "LazyPageImplWithPH:onViewInflated")
-    }
 
 }

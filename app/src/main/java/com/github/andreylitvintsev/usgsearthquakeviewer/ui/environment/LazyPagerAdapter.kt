@@ -1,7 +1,6 @@
 package com.github.andreylitvintsev.usgsearthquakeviewer.ui.environment
 
 import android.support.v4.view.PagerAdapter
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 
@@ -16,14 +15,12 @@ class LazyPagerAdapter(vararg val pages: LazyPage) : PagerAdapter() {
         if (currentPage != position) {
             currentPage = position
             pages[currentPage].onPageStayVisible(currentPage)
-            Log.d("TAG", "blocking!")
         }
     }
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
         val viewOnPosition = pages[position].onInstantiateItem(container, position)
         container.addView(viewOnPosition)
-
         return viewOnPosition
     }
 
