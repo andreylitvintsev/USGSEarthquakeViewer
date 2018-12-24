@@ -1,9 +1,12 @@
-package com.github.andreylitvintsev.usgsearthquakeviewer
+package com.github.andreylitvintsev.usgsearthquakeviewer.ui
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import android.view.*
+import com.github.andreylitvintsev.usgsearthquakeviewer.R
+import com.github.andreylitvintsev.usgsearthquakeviewer.appCompatActivity
+import com.github.andreylitvintsev.usgsearthquakeviewer.openFragment
 import com.google.android.gms.maps.GoogleMap
 
 class MapFragment : Fragment() {
@@ -36,7 +39,8 @@ class MapFragment : Fragment() {
     }
 
     private fun openFilterDialogFragment() {
-        FilterDialogFragment().show(appCompatActivity().supportFragmentManager, "dialogFragment")
+        FilterDialogFragment()
+            .show(appCompatActivity().supportFragmentManager, "dialogFragment")
     }
 
     private fun openAboutFragment() {
