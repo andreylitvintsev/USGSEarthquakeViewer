@@ -1,9 +1,9 @@
 package com.github.andreylitvintsev.usgsearthquakeviewer.ui
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v7.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import android.view.*
+import androidx.appcompat.app.AppCompatActivity
 import com.github.andreylitvintsev.usgsearthquakeviewer.R
 import com.github.andreylitvintsev.usgsearthquakeviewer.appCompatActivity
 import com.github.andreylitvintsev.usgsearthquakeviewer.openFragment

@@ -1,9 +1,9 @@
 package com.github.andreylitvintsev.usgsearthquakeviewer.ui
 
 import android.content.Context
-import android.support.v4.view.ViewPager
 import android.view.View
 import android.widget.Button
+import androidx.viewpager.widget.ViewPager
 import com.github.andreylitvintsev.usgsearthquakeviewer.R
 import com.github.andreylitvintsev.usgsearthquakeviewer.ui.environment.LazyPage
 

@@ -1,12 +1,12 @@
 package com.github.andreylitvintsev.usgsearthquakeviewer.ui.environment
 
 import android.content.Context
-import android.support.annotation.CallSuper
-import android.support.annotation.LayoutRes
-import android.support.v4.view.AsyncLayoutInflater
+import androidx.asynclayoutinflater.view.AsyncLayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import androidx.annotation.CallSuper
+import androidx.annotation.LayoutRes
 
 
 abstract class LazyPage(val context: Context) {

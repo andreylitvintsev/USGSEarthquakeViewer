@@ -2,9 +2,9 @@ package com.github.andreylitvintsev.usgsearthquakeviewer.ui
 
 import android.app.Dialog
 import android.os.Bundle
-import android.support.v4.view.ViewPager
-import android.support.v7.app.AlertDialog
-import android.support.v7.app.AppCompatDialogFragment
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatDialogFragment
+import androidx.viewpager.widget.ViewPager
 import com.github.andreylitvintsev.usgsearthquakeviewer.R
 import com.github.andreylitvintsev.usgsearthquakeviewer.appCompatActivity
 import com.github.andreylitvintsev.usgsearthquakeviewer.ui.environment.LazyPagerAdapter
