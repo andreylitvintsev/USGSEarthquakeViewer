@@ -23,7 +23,12 @@ class DateFilterPage(val viewPager: ViewPager, context: Context) : PendingPage(c
         super.onViewInflated(view)
 
         view.findViewById<Toolbar>(R.id.toolbar).setNavigationOnClickListener {
-            viewPager.currentItem = 0 // TODO: Начни с меня!!! исправить magic number + в качестве возможного сценария создавать calendar view сразу
+            toPreviousPage()
         }
     }
+
+    private fun toPreviousPage() {
+        viewPager.currentItem -= 1
+    }
+
 }

@@ -18,8 +18,12 @@ class MagnitudeFilterPage(val viewPager: ViewPager, context: Context) : PendingP
         super.onViewInflated(view)
 
         view.findViewById<Button>(R.id.timePickerButton).setOnClickListener {
-            viewPager.currentItem = 1 // TODO: исправить magic number
+            toNextPage()
         }
+    }
+
+    private fun toNextPage() {
+        viewPager.currentItem += 1
     }
 
 }
