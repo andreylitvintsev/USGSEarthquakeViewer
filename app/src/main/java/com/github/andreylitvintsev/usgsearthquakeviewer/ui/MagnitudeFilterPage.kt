@@ -14,7 +14,13 @@ class MagnitudeFilterPage(val viewPager: ViewPager, context: Context) : LazyPage
 
     override fun getLayout(): Int = R.layout.page_dialog_filter
 
+    override fun onInstantiatedPage(pageIndex: Int) {
+        showMainView()
+    }
+
     override fun onViewInflated(view: View) {
+        super.onViewInflated(view)
+
         view.findViewById<Button>(R.id.timePickerButton).setOnClickListener {
             viewPager.currentItem = 1 // TODO: исправить magic number
         }

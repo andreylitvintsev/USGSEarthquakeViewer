@@ -14,6 +14,10 @@ class DateFilterPage(val viewPager: ViewPager, context: Context) : LazyPage(cont
 
     override fun getLayout(): Int = R.layout.page_dialog_datepicker
 
+    override fun onInstantiatedPage(pageIndex: Int) {
+        showPlaceHolder()
+    }
+
     override fun onPageStayVisible(pageIndex: Int) {
         super.onPageStayVisible(pageIndex)
         showMainView()
@@ -25,6 +29,8 @@ class DateFilterPage(val viewPager: ViewPager, context: Context) : LazyPage(cont
     }
 
     override fun onViewInflated(view: View) {
+        super.onViewInflated(view)
+
         view.findViewById<Toolbar>(R.id.toolbar).setNavigationOnClickListener {
             viewPager.currentItem = 0 // TODO: Начни с меня!!! исправить magic number + в качестве возможного сценария создавать calendar view сразу
         }

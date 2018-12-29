@@ -1,13 +1,16 @@
 package com.github.andreylitvintsev.usgsearthquakeviewer.ui.environment
 
 import android.content.Context
-import androidx.asynclayoutinflater.view.AsyncLayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.annotation.CallSuper
 import androidx.annotation.LayoutRes
+import androidx.asynclayoutinflater.view.AsyncLayoutInflater
+import kotlin.properties.Delegates.observable
 
+
+private typealias AsyncShowCommand = () -> Unit
 
 abstract class LazyPage(val context: Context) {
 
@@ -18,6 +21,10 @@ abstract class LazyPage(val context: Context) {
     private var placeholderView: View? = null
     private var mainView: View? = null
 
+    private var asyncShowCommand by observable<AsyncShowCommand?>(null) { _, _, newValue ->
+        if (newValue != null) tryHandleShowCommand()
+    }
+
     private val viewGroup = FrameLayout(context).apply {
         if (getPlaceholderLayout() != EMPTY_PLACEHOLDER) {
             placeholderView = View.inflate(context, getPlaceholderLayout(), null)
@@ -26,13 +33,38 @@ abstract class LazyPage(val context: Context) {
     }
 
     fun showPlaceHolder() {
-        mainView?.visibility = View.GONE
-        placeholderView?.visibility = View.VISIBLE
+        asyncShowCommand = {
+            mainView?.visibility = View.GONE
+            placeholderView?.visibility = View.VISIBLE
+        }
     }
 
     fun showMainView() {
-        placeholderView?.visibility = View.GONE
-        mainView?.visibility = View.VISIBLE
+        asyncShowCommand = {
+            placeholderView?.visibility = View.GONE
+            mainView?.visibility = View.VISIBLE
+        }
+    }
+
+    private fun tryHandleShowCommand() {
+        mainView?.let {
+            asyncShowCommand?.invoke()
+            asyncShowCommand = null
+        }
+    }
+
+    internal fun onInstantiateItem(container: ViewGroup, position: Int): View {
+        if (mainView == null) {
+            AsyncLayoutInflater(context).inflate(getLayout(), viewGroup) { view, i, viewGroup ->
+                mainView = view
+                onViewInflated(view)
+                viewGroup?.addView(view)
+            }
+        }
+
+        onInstantiatedPage(position)
+
+        return viewGroup
     }
 
     @LayoutRes
@@ -41,27 +73,21 @@ abstract class LazyPage(val context: Context) {
     @LayoutRes
     protected abstract fun getLayout(): Int
 
+    protected open fun onInstantiatedPage(pageIndex: Int) {
+        // Do nothing!
+    }
+
+    @CallSuper
     protected open fun onViewInflated(view: View) {
+        tryHandleShowCommand()
+    }
+
+    internal open fun onPageStayVisible(pageIndex: Int) {
         // Do nothing!
     }
 
     internal open fun onLeavedPage() {
         // Do nothing!
     }
-
-    @CallSuper
-    open fun onPageStayVisible(pageIndex: Int) {
-        if (mainView == null) {
-            AsyncLayoutInflater(context).inflate(getLayout(), viewGroup) { view, i, viewGroup ->
-                placeholderView?.visibility = View.GONE
-
-                mainView = view
-                onViewInflated(view)
-                viewGroup?.addView(view)
-            }
-        }
-    }
-
-    internal fun onInstantiateItem(container: ViewGroup, position: Int): View = viewGroup
 
 }

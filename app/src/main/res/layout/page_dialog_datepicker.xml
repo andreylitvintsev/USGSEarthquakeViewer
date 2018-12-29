@@ -4,7 +4,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="276dp">
 
     <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
@@ -13,17 +13,24 @@
             style="@style/AppTheme.Toolbar"/>
 
     <!-- TODO: https://android-arsenal.com/details/1/4696 -->
-    <com.github.sundeepk.compactcalendarview.CompactCalendarView
-            android:id="@+id/compactcalendar_view"
+    <jp.co.recruit_mp.android.lightcalendarview.LightCalendarView
+            android:id="@+id/calendarView"
             android:layout_width="match_parent"
-            android:paddingRight="16dp"
-            android:paddingLeft="16dp"
-            android:layout_height="256dp"
-            app:compactCalendarBackgroundColor="#ffe95451"
-            app:compactCalendarTextColor="#fff"
-            app:compactCalendarCurrentSelectedDayBackgroundColor="#E57373"
-            app:compactCalendarCurrentDayBackgroundColor="#B71C1C"
-            app:compactCalendarTextSize="12sp"
-            app:compactCalendarMultiEventIndicatorColor="#fff"/>
+            android:layout_height="250dp"
+            app:lcv_weekDayTextSize="18sp"
+            app:lcv_dayTextSize="18sp"/>
+
+    <!--<com.github.sundeepk.compactcalendarview.CompactCalendarView-->
+    <!--android:id="@+id/compactcalendar_view"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:paddingRight="16dp"-->
+    <!--android:paddingLeft="16dp"-->
+    <!--android:layout_height="256dp"-->
+    <!--app:compactCalendarBackgroundColor="#ffe95451"-->
+    <!--app:compactCalendarTextColor="#fff"-->
+    <!--app:compactCalendarCurrentSelectedDayBackgroundColor="#E57373"-->
+    <!--app:compactCalendarCurrentDayBackgroundColor="#B71C1C"-->
+    <!--app:compactCalendarTextSize="12sp"-->
+    <!--app:compactCalendarMultiEventIndicatorColor="#fff"/>-->
 
 </LinearLayout>
