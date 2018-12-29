@@ -10,13 +10,9 @@ import com.github.andreylitvintsev.usgsearthquakeviewer.ui.environment.PendingPa
 
 class MagnitudeFilterPage(val viewPager: ViewPager, context: Context) : PendingPage(context) {
 
-    override fun getPlaceholderLayout(): Int = R.layout.stub
-
     override fun getLayout(): Int = R.layout.page_dialog_filter
 
-    override fun onInstantiatedPage(pageIndex: Int) {
-        showMainView()
-    }
+    override fun onPageStayVisible(pageIndex: Int) = showMainView()
 
     override fun onViewInflated(view: View) {
         super.onViewInflated(view)

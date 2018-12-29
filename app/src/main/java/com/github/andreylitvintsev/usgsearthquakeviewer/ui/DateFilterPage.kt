@@ -10,23 +10,14 @@ import com.github.andreylitvintsev.usgsearthquakeviewer.ui.environment.PendingPa
 
 class DateFilterPage(val viewPager: ViewPager, context: Context) : PendingPage(context) {
 
-//    override fun getPlaceholderLayout(): Int = R.layout.stub
-
     override fun getLayout(): Int = R.layout.page_dialog_datepicker
 
-    override fun onInstantiatedPage(pageIndex: Int) {
-        showPlaceHolder()
-    }
+    override fun onInstantiatePage(pageIndex: Int) = showPlaceHolder()
 
-    override fun onPageStayVisible(pageIndex: Int) {
-        super.onPageStayVisible(pageIndex)
-        showMainView()
-    }
+    override fun onPageStayVisible(pageIndex: Int) = showMainView()
 
-    override fun onLeavedPage() {
-        super.onLeavedPage()
-        showPlaceHolder()
-    }
+    override fun onLeavedPage() = showPlaceHolder()
+
 
     override fun onViewInflated(view: View) {
         super.onViewInflated(view)

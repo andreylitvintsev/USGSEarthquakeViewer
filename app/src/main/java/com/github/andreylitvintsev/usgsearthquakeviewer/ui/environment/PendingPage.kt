@@ -54,15 +54,16 @@ abstract class PendingPage(val context: Context) {
     }
 
     internal fun onInstantiateItem(container: ViewGroup, position: Int): View {
+        onInstantiatePage(position)
+
         if (mainView == null) {
             AsyncLayoutInflater(context).inflate(getLayout(), viewGroup) { view, i, viewGroup ->
                 mainView = view
+                view.visibility = View.GONE
                 onViewInflated(view)
                 viewGroup?.addView(view)
             }
         }
-
-        onInstantiatedPage(position)
 
         return viewGroup
     }
@@ -73,7 +74,7 @@ abstract class PendingPage(val context: Context) {
     @LayoutRes
     protected abstract fun getLayout(): Int
 
-    protected open fun onInstantiatedPage(pageIndex: Int) {
+    protected open fun onInstantiatePage(pageIndex: Int) {
         // Do nothing!
     }
 
