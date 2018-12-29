@@ -1,11 +1,11 @@
 package com.github.andreylitvintsev.usgsearthquakeviewer.ui.environment
 
-import androidx.viewpager.widget.PagerAdapter
 import android.view.View
 import android.view.ViewGroup
+import androidx.viewpager.widget.PagerAdapter
 
 
-class LazyPagerAdapter(vararg val pages: LazyPage) : PagerAdapter() {
+class PendingPagerAdapter(vararg val pages: PendingPage) : PagerAdapter() {
 
     private var currentPage: Int = -1
 

@@ -12,7 +12,7 @@ import kotlin.properties.Delegates.observable
 
 private typealias AsyncShowCommand = () -> Unit
 
-abstract class LazyPage(val context: Context) {
+abstract class PendingPage(val context: Context) {
 
     private companion object {
         const val EMPTY_PLACEHOLDER = -1

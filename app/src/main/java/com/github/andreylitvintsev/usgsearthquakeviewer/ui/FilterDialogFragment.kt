@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.viewpager.widget.ViewPager
 import com.github.andreylitvintsev.usgsearthquakeviewer.R
 import com.github.andreylitvintsev.usgsearthquakeviewer.appCompatActivity
-import com.github.andreylitvintsev.usgsearthquakeviewer.ui.environment.LazyPagerAdapter
+import com.github.andreylitvintsev.usgsearthquakeviewer.ui.environment.PendingPagerAdapter
 
 
 // TODO: может ли существовать фрагмент без активити?
@@ -25,7 +25,7 @@ class FilterDialogFragment : AppCompatDialogFragment() { // TODO: посмотр
             .create()
     }
 
-    private fun createPagerAdapter() = LazyPagerAdapter(
+    private fun createPagerAdapter() = PendingPagerAdapter(
         MagnitudeFilterPage(viewPager, appCompatActivity()),
         DateFilterPage(viewPager, appCompatActivity())
     )

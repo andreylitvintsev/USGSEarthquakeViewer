@@ -5,10 +5,10 @@ import android.view.View
 import androidx.appcompat.widget.Toolbar
 import androidx.viewpager.widget.ViewPager
 import com.github.andreylitvintsev.usgsearthquakeviewer.R
-import com.github.andreylitvintsev.usgsearthquakeviewer.ui.environment.LazyPage
+import com.github.andreylitvintsev.usgsearthquakeviewer.ui.environment.PendingPage
 
 
-class DateFilterPage(val viewPager: ViewPager, context: Context) : LazyPage(context) {
+class DateFilterPage(val viewPager: ViewPager, context: Context) : PendingPage(context) {
 
 //    override fun getPlaceholderLayout(): Int = R.layout.stub
 
