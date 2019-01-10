@@ -37,7 +37,7 @@ class DateFilterPage(val viewPager: ViewPager, context: Context, val date: Date)
 
     private fun initToolbar(rootView: View): Toolbar {
         return rootView.findViewById<Toolbar>(R.id.toolbar).apply {
-            toolbar.title = Calendar.getInstance().time.toFormattedString()
+            toolbar.title = date.toFormattedString()
 
             setNavigationOnClickListener {
                 toPreviousPage()

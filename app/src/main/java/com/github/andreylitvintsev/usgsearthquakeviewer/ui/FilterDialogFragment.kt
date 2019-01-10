@@ -15,10 +15,16 @@ import java.util.*
 
 class FilterDialogFragment : AppCompatDialogFragment() { // TODO: посмотреть в чем разница между DialogFragment
 
+    private companion object {
+        const val SAVED_DATE_KEY = "savedDate"
+    }
+
     private lateinit var viewPager: ViewPager
     private val date = Date() // TODO: сделать сохранение на поворотах
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        restoreState(savedInstanceState)
+
         return AlertDialog.Builder(appCompatActivity())
             .setView(appCompatActivity().layoutInflater.inflate(R.layout.dialog_fragment_filter, null).apply {
                 viewPager = findViewById(R.id.viewPager)
@@ -31,5 +37,20 @@ class FilterDialogFragment : AppCompatDialogFragment() { // TODO: посмотр
         MagnitudeFilterPage(viewPager, appCompatActivity(), date),
         DateFilterPage(viewPager, appCompatActivity(), date)
     )
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        saveState(outState)
+    }
+
+    private fun restoreState(savedInstanceState: Bundle?) {
+        if (savedInstanceState != null) {
+            date.time = savedInstanceState.getLong(SAVED_DATE_KEY)
+        }
+    }
+
+    private fun saveState(outState: Bundle) {
+        outState.putLong(SAVED_DATE_KEY, date.time)
+    }
 
 }
