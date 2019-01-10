@@ -59,7 +59,7 @@ abstract class PendingPage(val context: Context) {
         if (mainView == null) {
             AsyncLayoutInflater(context).inflate(getLayout(), viewGroup) { view, i, viewGroup ->
                 mainView = view
-                view.visibility = View.GONE
+//                view.visibility = View.GONE  TODO: Можно удалить?
                 onViewInflated(view)
                 viewGroup?.addView(view)
             }

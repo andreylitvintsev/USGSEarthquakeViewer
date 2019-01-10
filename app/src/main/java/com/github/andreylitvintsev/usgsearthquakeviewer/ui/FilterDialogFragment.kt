@@ -8,6 +8,7 @@ import androidx.viewpager.widget.ViewPager
 import com.github.andreylitvintsev.usgsearthquakeviewer.R
 import com.github.andreylitvintsev.usgsearthquakeviewer.appCompatActivity
 import com.github.andreylitvintsev.usgsearthquakeviewer.ui.environment.PendingPagerAdapter
+import java.util.*
 
 
 // TODO: может ли существовать фрагмент без активити?
@@ -15,6 +16,7 @@ import com.github.andreylitvintsev.usgsearthquakeviewer.ui.environment.PendingPa
 class FilterDialogFragment : AppCompatDialogFragment() { // TODO: посмотреть в чем разница между DialogFragment
 
     private lateinit var viewPager: ViewPager
+    private val date = Date() // TODO: сделать сохранение на поворотах
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return AlertDialog.Builder(appCompatActivity())
@@ -26,8 +28,8 @@ class FilterDialogFragment : AppCompatDialogFragment() { // TODO: посмотр
     }
 
     private fun createPagerAdapter() = PendingPagerAdapter(
-        MagnitudeFilterPage(viewPager, appCompatActivity()),
-        DateFilterPage(viewPager, appCompatActivity())
+        MagnitudeFilterPage(viewPager, appCompatActivity(), date),
+        DateFilterPage(viewPager, appCompatActivity(), date)
     )
 
 }

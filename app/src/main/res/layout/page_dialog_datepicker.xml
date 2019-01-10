@@ -2,22 +2,21 @@
 <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
     <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
-            app:title="@string/date_picking"
+            tools:title="21.12.2018"
             app:navigationIcon="?attr/homeAsUpIndicator"
             style="@style/AppTheme.Toolbar"/>
 
-    <!-- TODO: https://android-arsenal.com/details/1/4696 -->
-    <jp.co.recruit_mp.android.lightcalendarview.LightCalendarView
+    <!--https://github.com/CleverPumpkin/CrunchyCalendar-->
+    <ru.cleverpumpkin.calendar.CalendarView
             android:id="@+id/calendarView"
             android:layout_width="match_parent"
-            android:layout_height="256dp"
-            app:lcv_weekDayTextSize="14sp"
-            app:lcv_dayTextSize="14sp"/>
+            android:layout_height="256dp"/>
 
 </LinearLayout>

@@ -9,7 +9,6 @@
     <string name="magnitude_description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
         incididunt ut labore et dolore magna aliqua.
     </string>
-    <string name="time_picker_button">21.12.2018</string>
     <string name="cancel_button">Cancel</string>
     <string name="apply_button">Apply</string>
 </resources>
