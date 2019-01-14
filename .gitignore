@@ -37,3 +37,4 @@ obj/
 
 #specific for project
 keystore.properties
+*.jks
