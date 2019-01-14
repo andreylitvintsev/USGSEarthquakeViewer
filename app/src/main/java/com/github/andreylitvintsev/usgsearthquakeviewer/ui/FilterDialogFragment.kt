@@ -2,12 +2,14 @@ package com.github.andreylitvintsev.usgsearthquakeviewer.ui
 
 import android.app.Dialog
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.viewpager.widget.ViewPager
 import com.github.andreylitvintsev.usgsearthquakeviewer.R
-import com.github.andreylitvintsev.usgsearthquakeviewer.appCompatActivity
+import com.github.andreylitvintsev.usgsearthquakeviewer.ui.environment.DelayCommandLauncher
 import com.github.andreylitvintsev.usgsearthquakeviewer.ui.environment.PendingPagerAdapter
+import com.github.andreylitvintsev.usgsearthquakeviewer.ui.environment.appCompatActivity
 import java.util.*
 
 
@@ -24,6 +26,10 @@ class FilterDialogFragment : AppCompatDialogFragment() { // TODO: посмотр
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         restoreState(savedInstanceState)
+
+        DelayCommandLauncher(lifecycle).launch(5000) {
+            Log.d("HANDLE","Hello World")
+        }
 
         return AlertDialog.Builder(appCompatActivity())
             .setView(appCompatActivity().layoutInflater.inflate(R.layout.dialog_fragment_filter, null).apply {

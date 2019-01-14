@@ -5,8 +5,8 @@ import android.view.View
 import androidx.appcompat.widget.Toolbar
 import androidx.viewpager.widget.ViewPager
 import com.github.andreylitvintsev.usgsearthquakeviewer.R
-import com.github.andreylitvintsev.usgsearthquakeviewer.toFormattedString
 import com.github.andreylitvintsev.usgsearthquakeviewer.ui.environment.PendingPage
+import com.github.andreylitvintsev.usgsearthquakeviewer.ui.environment.toFormattedString
 import kotlinx.android.synthetic.main.fragment_about.view.*
 import ru.cleverpumpkin.calendar.CalendarDate
 import ru.cleverpumpkin.calendar.CalendarView

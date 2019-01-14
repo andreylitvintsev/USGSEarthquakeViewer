@@ -5,7 +5,7 @@ import android.view.View
 import android.widget.Button
 import androidx.viewpager.widget.ViewPager
 import com.github.andreylitvintsev.usgsearthquakeviewer.R
-import com.github.andreylitvintsev.usgsearthquakeviewer.toFormattedString
+import com.github.andreylitvintsev.usgsearthquakeviewer.ui.environment.toFormattedString
 import com.github.andreylitvintsev.usgsearthquakeviewer.ui.environment.PendingPage
 import java.util.*
 

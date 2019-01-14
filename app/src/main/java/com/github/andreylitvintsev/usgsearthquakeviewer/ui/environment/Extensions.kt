@@ -1,4 +1,4 @@
-package com.github.andreylitvintsev.usgsearthquakeviewer
+package com.github.andreylitvintsev.usgsearthquakeviewer.ui.environment
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment

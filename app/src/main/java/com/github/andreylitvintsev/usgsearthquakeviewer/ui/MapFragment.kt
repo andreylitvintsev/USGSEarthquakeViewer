@@ -5,8 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import com.github.andreylitvintsev.usgsearthquakeviewer.R
-import com.github.andreylitvintsev.usgsearthquakeviewer.appCompatActivity
-import com.github.andreylitvintsev.usgsearthquakeviewer.openFragment
+import com.github.andreylitvintsev.usgsearthquakeviewer.ui.environment.appCompatActivity
+import com.github.andreylitvintsev.usgsearthquakeviewer.ui.environment.openFragment
 import com.google.android.gms.maps.GoogleMap
 
 class MapFragment : Fragment() {
