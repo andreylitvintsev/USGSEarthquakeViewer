@@ -27,11 +27,19 @@ class FilterDialogFragment : AppCompatDialogFragment() { // TODO: посмотр
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         restoreState(savedInstanceState)
 
-        DelayCommandLauncher(lifecycle).launch(5000) {
-            Log.d("HANDLE","Hello World")
-        }
+        DelayCommandLauncher(lifecycle).launch(5000, Runnable {
+            Log.d("HANDLE", "Hello World 1")
+        })
 
-        return AlertDialog.Builder(appCompatActivity())
+        DelayCommandLauncher(lifecycle).launch(6000, Runnable {
+            Log.d("HANDLE", "Hello World 2")
+        })
+
+        DelayCommandLauncher(lifecycle).launch(7000, Runnable {
+            Log.d("HANDLE", "Hello World 3")
+        })
+
+            return AlertDialog . Builder (appCompatActivity())
             .setView(appCompatActivity().layoutInflater.inflate(R.layout.dialog_fragment_filter, null).apply {
                 viewPager = findViewById(R.id.viewPager)
                 viewPager.adapter = createPagerAdapter()
