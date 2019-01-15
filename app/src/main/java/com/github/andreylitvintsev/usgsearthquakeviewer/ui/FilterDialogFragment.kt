@@ -13,8 +13,8 @@ import java.util.*
 
 
 // TODO: может ли существовать фрагмент без активити?
-
-class FilterDialogFragment : AppCompatDialogFragment() { // TODO: посмотреть в чем разница между DialogFragment
+// TODO: посмотреть в чем разница между DialogFragment
+class FilterDialogFragment : AppCompatDialogFragment(), OnPositiveNegativeListener {
 
     private companion object {
         const val SAVED_DATE_KEY = "savedDate"
@@ -38,7 +38,7 @@ class FilterDialogFragment : AppCompatDialogFragment() { // TODO: посмотр
         val delayCommandLauncher = DelayCommandLauncher(lifecycle)
 
         return PendingPagerAdapter(
-            MagnitudeFilterPage(viewPager, appCompatActivity(), delayCommandLauncher, date),
+            MagnitudeFilterPage(viewPager, appCompatActivity(), delayCommandLauncher, date, this),
             DateFilterPage(viewPager, appCompatActivity(), delayCommandLauncher, date)
         )
     }
@@ -57,5 +57,11 @@ class FilterDialogFragment : AppCompatDialogFragment() { // TODO: посмотр
     private fun saveState(outState: Bundle) {
         outState.putLong(SAVED_DATE_KEY, date.time)
     }
+
+    override fun onPositive() {
+        // Do nothing!
+    }
+
+    override fun onNegative() = dismiss()
 
 }

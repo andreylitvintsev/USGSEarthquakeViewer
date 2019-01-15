@@ -15,7 +15,8 @@ class MagnitudeFilterPage(
     val viewPager: ViewPager,
     context: Context,
     commandDelayer: CommandDelayer,
-    val date: Date
+    val date: Date,
+    private val onPositiveNegativeListener: OnPositiveNegativeListener? = null
 ) : PendingPage(context, commandDelayer) {
 
     private var timePickerButton: Button? = null
@@ -37,6 +38,8 @@ class MagnitudeFilterPage(
 
     private fun initViews(rootView: View) {
         timePickerButton = initTimePickerButton(rootView)
+        initCancelButton(rootView)
+        initApplyButton(rootView)
     }
 
     private fun initTimePickerButton(rootView: View): Button {
@@ -45,6 +48,22 @@ class MagnitudeFilterPage(
 
             setOnClickListener {
                 toNextPage()
+            }
+        }
+    }
+
+    private fun initCancelButton(rootView: View): Button {
+        return rootView.findViewById<Button>(R.id.cancelButton).apply {
+            setOnClickListener {
+                onPositiveNegativeListener?.onNegative()
+            }
+        }
+    }
+
+    private fun initApplyButton(rootView: View): Button {
+        return rootView.findViewById<Button>(R.id.applyButton).apply {
+            setOnClickListener {
+                onPositiveNegativeListener?.onPositive()
             }
         }
     }
