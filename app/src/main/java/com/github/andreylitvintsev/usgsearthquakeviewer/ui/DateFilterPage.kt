@@ -5,6 +5,7 @@ import android.view.View
 import androidx.appcompat.widget.Toolbar
 import androidx.viewpager.widget.ViewPager
 import com.github.andreylitvintsev.usgsearthquakeviewer.R
+import com.github.andreylitvintsev.usgsearthquakeviewer.ui.environment.CommandDelayer
 import com.github.andreylitvintsev.usgsearthquakeviewer.ui.environment.PendingPage
 import com.github.andreylitvintsev.usgsearthquakeviewer.ui.environment.toFormattedString
 import kotlinx.android.synthetic.main.fragment_about.view.*
@@ -13,13 +14,20 @@ import ru.cleverpumpkin.calendar.CalendarView
 import java.util.*
 
 
-class DateFilterPage(val viewPager: ViewPager, context: Context, val date: Date) : PendingPage(context) {
+class DateFilterPage(
+    val viewPager: ViewPager,
+    context: Context,
+    commandDelayer: CommandDelayer,
+    val date: Date
+) : PendingPage(context, commandDelayer) {
+
+    override fun getPlaceholderLayout(): Int = R.layout.placeholder_dialog_filter
 
     override fun getLayout(): Int = R.layout.page_dialog_datepicker
 
     override fun onInstantiatePage(pageIndex: Int) = showPlaceHolder()
 
-    override fun onPageStayVisible(pageIndex: Int) = showMainView()
+    override fun onPageStayVisible(pageIndex: Int) = showMainView(delay = 300)
 
     override fun onLeavedPage() = showPlaceHolder()
 

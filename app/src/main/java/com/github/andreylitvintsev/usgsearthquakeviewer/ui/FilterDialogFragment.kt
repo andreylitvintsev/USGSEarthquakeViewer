@@ -2,7 +2,6 @@ package com.github.andreylitvintsev.usgsearthquakeviewer.ui
 
 import android.app.Dialog
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.viewpager.widget.ViewPager
@@ -27,19 +26,7 @@ class FilterDialogFragment : AppCompatDialogFragment() { // TODO: посмотр
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         restoreState(savedInstanceState)
 
-        DelayCommandLauncher(lifecycle).launch(5000, Runnable {
-            Log.d("HANDLE", "Hello World 1")
-        })
-
-        DelayCommandLauncher(lifecycle).launch(6000, Runnable {
-            Log.d("HANDLE", "Hello World 2")
-        })
-
-        DelayCommandLauncher(lifecycle).launch(7000, Runnable {
-            Log.d("HANDLE", "Hello World 3")
-        })
-
-            return AlertDialog . Builder (appCompatActivity())
+        return AlertDialog.Builder(appCompatActivity())
             .setView(appCompatActivity().layoutInflater.inflate(R.layout.dialog_fragment_filter, null).apply {
                 viewPager = findViewById(R.id.viewPager)
                 viewPager.adapter = createPagerAdapter()
@@ -47,10 +34,14 @@ class FilterDialogFragment : AppCompatDialogFragment() { // TODO: посмотр
             .create()
     }
 
-    private fun createPagerAdapter() = PendingPagerAdapter(
-        MagnitudeFilterPage(viewPager, appCompatActivity(), date),
-        DateFilterPage(viewPager, appCompatActivity(), date)
-    )
+    private fun createPagerAdapter(): PendingPagerAdapter {
+        val delayCommandLauncher = DelayCommandLauncher(lifecycle)
+
+        return PendingPagerAdapter(
+            MagnitudeFilterPage(viewPager, appCompatActivity(), delayCommandLauncher, date),
+            DateFilterPage(viewPager, appCompatActivity(), delayCommandLauncher, date)
+        )
+    }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)

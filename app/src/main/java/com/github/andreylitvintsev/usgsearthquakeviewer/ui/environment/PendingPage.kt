@@ -10,9 +10,7 @@ import androidx.asynclayoutinflater.view.AsyncLayoutInflater
 import kotlin.properties.Delegates.observable
 
 
-private typealias AsyncShowCommand = () -> Unit
-
-abstract class PendingPage(val context: Context) {
+abstract class PendingPage(val context: Context,val commandDelayer: CommandDelayer) {
 
     private companion object {
         const val EMPTY_PLACEHOLDER = -1
@@ -21,7 +19,7 @@ abstract class PendingPage(val context: Context) {
     private var placeholderView: View? = null
     private var mainView: View? = null
 
-    private var asyncShowCommand by observable<AsyncShowCommand?>(null) { _, _, newValue ->
+    private var asyncShowCommand by observable<CommandWithDelay?>(null) { _, _, newValue ->
         if (newValue != null) tryHandleShowCommand()
     }
 
@@ -32,23 +30,23 @@ abstract class PendingPage(val context: Context) {
         }
     }
 
-    fun showPlaceHolder() {
-        asyncShowCommand = {
+    fun showPlaceHolder(delay: Long = 0L) {
+        asyncShowCommand = CommandWithDelay(Runnable {
             mainView?.visibility = View.GONE
             placeholderView?.visibility = View.VISIBLE
-        }
+        }, delay)
     }
 
-    fun showMainView() {
-        asyncShowCommand = {
+    fun showMainView(delay: Long = 0L) {
+        asyncShowCommand = CommandWithDelay(Runnable {
             placeholderView?.visibility = View.GONE
             mainView?.visibility = View.VISIBLE
-        }
+        }, delay)
     }
 
     private fun tryHandleShowCommand() {
-        mainView?.let {
-            asyncShowCommand?.invoke()
+        if (mainView != null) {
+            asyncShowCommand?.let { commandDelayer.launch(it) }
             asyncShowCommand = null
         }
     }
@@ -59,7 +57,7 @@ abstract class PendingPage(val context: Context) {
         if (mainView == null) {
             AsyncLayoutInflater(context).inflate(getLayout(), viewGroup) { view, i, viewGroup ->
                 mainView = view
-//                view.visibility = View.GONE  TODO: Можно удалить?
+                view.visibility = View.GONE
                 onViewInflated(view)
                 viewGroup?.addView(view)
             }

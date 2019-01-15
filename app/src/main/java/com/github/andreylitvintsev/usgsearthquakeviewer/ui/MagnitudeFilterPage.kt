@@ -5,19 +5,27 @@ import android.view.View
 import android.widget.Button
 import androidx.viewpager.widget.ViewPager
 import com.github.andreylitvintsev.usgsearthquakeviewer.R
-import com.github.andreylitvintsev.usgsearthquakeviewer.ui.environment.toFormattedString
+import com.github.andreylitvintsev.usgsearthquakeviewer.ui.environment.CommandDelayer
 import com.github.andreylitvintsev.usgsearthquakeviewer.ui.environment.PendingPage
+import com.github.andreylitvintsev.usgsearthquakeviewer.ui.environment.toFormattedString
 import java.util.*
 
 
-class MagnitudeFilterPage(val viewPager: ViewPager, context: Context, val date: Date) : PendingPage(context) {
+class MagnitudeFilterPage(
+    val viewPager: ViewPager,
+    context: Context,
+    commandDelayer: CommandDelayer,
+    val date: Date
+) : PendingPage(context, commandDelayer) {
 
     private var timePickerButton: Button? = null
+
+    override fun getPlaceholderLayout(): Int = R.layout.placeholder_dialog_filter
 
     override fun getLayout(): Int = R.layout.page_dialog_filter
 
     override fun onPageStayVisible(pageIndex: Int) {
-        showMainView()
+        showMainView(delay = 300)
         timePickerButton?.text = date.toFormattedString()
     }
 
